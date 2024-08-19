@@ -1,4 +1,4 @@
-package dev.gaurav.minioobjectstorageservice.contollers;
+package dev.gaurav.minioobjectstorageservice.controllers;
 
 import java.util.List;
 
