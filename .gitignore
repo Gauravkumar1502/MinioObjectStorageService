@@ -34,3 +34,6 @@ build/
 
 ### Exclude development specific properties files ###
 application-dev.properties
+
+### Exclude .env file ###
+.env

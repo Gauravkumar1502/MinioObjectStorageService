@@ -15,37 +15,37 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.gaurav.minioobjectstorageservice.exceptions.BucketAlreadyExistsException;
 import dev.gaurav.minioobjectstorageservice.exceptions.BucketNotFoundException;
 import dev.gaurav.minioobjectstorageservice.models.Bucket;
-import dev.gaurav.minioobjectstorageservice.services.MiniOService;
+import dev.gaurav.minioobjectstorageservice.services.MiniOBucketService;
 
 @RestController
 @RequestMapping("/api/v1/minio/buckets")
-public class MiniOController {
-        private static final Logger logger = LoggerFactory.getLogger(MiniOController.class);
-        private final MiniOService miniOService;
+public class BucketController {
+        private static final Logger logger = LoggerFactory.getLogger(BucketController.class);
+        private final MiniOBucketService miniOBucketService;
 
-        public MiniOController(MiniOService miniOService) {
-                this.miniOService = miniOService;
+        public BucketController(MiniOBucketService miniOBucketService) {
+                this.miniOBucketService = miniOBucketService;
         }
 
         @GetMapping("/test")
         public ResponseEntity<String> test() {
-                return ResponseEntity.ok("<h1>Welcome to MiniO Object Storage Service</h1>");
+                return ResponseEntity.ok("<h1>Welcome to MiniO Object Storage Service Bucket Controller</h1>");
         }
 
         @GetMapping("")
         public ResponseEntity<List<Bucket>> listBuckets() {
-                return ResponseEntity.ok(miniOService.listBuckets().orElse(null));
+                return ResponseEntity.ok(miniOBucketService.listBuckets().orElse(null));
         }
 
         @GetMapping("/{bucketName}")
         public ResponseEntity<Bucket> getBucket(@PathVariable String bucketName) {
-                return ResponseEntity.ok(miniOService.getBucket(bucketName).orElse(null));
+                return ResponseEntity.ok(miniOBucketService.getBucket(bucketName).orElse(null));
         }
 
         @GetMapping("/exists/{bucketName}")
         public ResponseEntity<String> isBucketExists(@PathVariable String bucketName) {
                 try{
-                        return ResponseEntity.ok(miniOService.isBucketExists(bucketName) ?
+                        return ResponseEntity.ok(miniOBucketService.isBucketExists(bucketName) ?
                                 "Bucket '" + bucketName + "' exists." : "Bucket '" + bucketName + "' does not exist.");
                 } catch (BucketNotFoundException | IllegalArgumentException e) {
                         logger.warn(e.getMessage());
@@ -59,7 +59,7 @@ public class MiniOController {
         @PostMapping("/{bucketName}")
         public ResponseEntity<String> createBucket(@PathVariable String bucketName) {
                 try {
-                        miniOService.createBucket(bucketName);
+                        miniOBucketService.createBucket(bucketName);
                         return ResponseEntity.ok("Bucket '" + bucketName + "' created successfully.");
                 } catch (BucketAlreadyExistsException | IllegalArgumentException e) {
                         logger.warn(e.getMessage());
@@ -73,7 +73,7 @@ public class MiniOController {
         @DeleteMapping("/{bucketName}")
         public ResponseEntity<String> removeBucket(@PathVariable String bucketName) {
                 try {
-                        miniOService.removeBucket(bucketName);
+                        miniOBucketService.removeBucket(bucketName);
                         return ResponseEntity.ok("Bucket '" + bucketName + "' removed successfully.");
                 } catch (BucketNotFoundException | IllegalArgumentException e) {
                         logger.warn(e.getMessage());
@@ -84,6 +84,6 @@ public class MiniOController {
                 }
         }
 
-        
+
 
 }

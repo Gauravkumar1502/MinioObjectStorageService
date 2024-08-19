@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MiniOService {
-    private static final Logger logger = LoggerFactory.getLogger(MiniOService.class);
+public class MiniOBucketService {
+    private static final Logger logger = LoggerFactory.getLogger(MiniOBucketService.class);
     private final MinioClient minioClient;
 
-    public MiniOService(MinioClient minioClient) {
+    public MiniOBucketService(MinioClient minioClient) {
         this.minioClient = minioClient;
     }
 
